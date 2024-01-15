@@ -1,0 +1,19 @@
+{
+  "name": "bot whitelist v3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "-",
+  "private": true,
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "axios": "^0.26.1",
+    "colors": "^1.4.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.2.3",
+    "tls": "^0.0.1"
+  }
+}

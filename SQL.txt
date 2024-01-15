@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `bloxfruit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userkey` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `discord_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hwid` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `Blacklisted` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `Reason` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userkey` (`userkey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

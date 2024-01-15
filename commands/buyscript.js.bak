@@ -1,0 +1,114 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const discord = require('discord.js');
+const truewalletapi = require('../lib/TrueWallet');
+const wallet = new truewalletapi('0988273436');
+const Price = 90.00
+
+
+module.exports = {
+    data: new SlashCommandBuilder()
+    .setName('donate')
+    .setDescription('โดเนท')
+    .addStringOption((option) => option.setName('name').setDescription('ชื่อที่จะให้แสดง').setRequired(true))
+	.addStringOption((option) => option.setName('message').setDescription('ข้อความที่จะให้แสดง').setRequired(true))
+    .addStringOption((option) => option.setName('voucher').setDescription('ลิ้งซองอั่งเปา').setRequired(true)),
+    async execute(interaction,con,NameHub,MadeBy,makeid,role,log,buyer,keymanager,keymanagername) {
+    //   const Embed1 = new discord.MessageEmbed()
+    //   .setTitle('<:error:963346324026167327> : Invalid')
+    //   .setColor('#fc4747')	
+    //   .setDescription("┖ การุณาซื้อสคริปต์ผ่านทางเว็บไซต์ : https://deityhub.net/")
+    //   .setTimestamp()
+    //   .setFooter('Deity Hub');
+    //   interaction.followUp({ embeds: [Embed1] ,  ephemeral: true }).then().catch(err => {});
+      let interactionNAME = interaction.options.getString('name');
+	  let interactionMESSAGE = interaction.options.getString('message');
+      let interactionLink = interaction.options.getString('voucher');
+
+    //   function EmbedErorr(dest) {
+    //     return new discord.MessageEmbed()
+	// 	.setTitle('<:error:963346324026167327> : Invalid')
+	// 	.setColor('#fc4747')	
+	// 	.setDescription("**┖ "+dest+"**")
+	// 	.setTimestamp()
+	// 	.setFooter('Deity Hub');
+    //   }
+
+      //if (!process.env.WALLET_NUMBER) return interaction.followUp({ embeds: [EmbedErorr("```diff\nThe owner did not put a mobile```")] ,  ephemeral: true }).then().catch(err => {});
+      
+        if (interactionLink) {
+          if (!interactionLink.startsWith('https://gift.truemoney.com/campaign/?v=')) return interaction.followUp({ embeds: [EmbedErorr("```diff\n- True Money Voucher Link not Found.```")] ,  ephemeral: true }).then().catch(err => {});
+
+          let response = await wallet.redeem(interactionLink);
+            
+          try {
+            
+            if (response.data.voucher.member != 1) return interaction.followUp({ embeds: [EmbedErorr("```diff\n- กรุณาปรับผู้รับซองเป็น 1 คน```")], ephemeral: true });
+
+            let redeem_amount = parseFloat(`${response.data.voucher.amount_baht}`.replace(/,/g, ''));
+
+            interaction.member.roles.add(interaction.guild.roles.cache.find(role => role.id === "1010457656646979594")).then().catch(err => {});
+			let channel = interaction.client.channels.cache.get('1010455886705217607');
+			const Embed10 = new discord.MessageEmbed()
+			.setColor('#00ff52')	
+			.addFields(
+				{ name: '👤 ชื่อผู้ใช้ :', value: "" + interactionNAME + "" , inline: true },
+				{ name: '💵 จำนวนเงิน ', value: "" + redeem_amount + "", inline: true },
+				{ name: '☁ ข้อความ :', value: "```\n" + interactionMESSAGE + "\n```"},
+			)
+			.setTimestamp()
+			.setFooter('Deity Hub');
+			channel.send({ embeds: [Embed10] ,  ephemeral: true })
+			// // RANDOM KEY1,2,3
+
+
+			 let randomkeycheck1 = Math.floor(Math.random() * 900000000) + 100000000;
+			 let randomkeycheck2 = Math.floor(Math.random() * 9000) + 1000;
+			 let randomkeycheck3 = Math.floor(Math.random() * 90000) + 10000;
+			 let ab = Math.floor(Math.random() * 9000000000) + 1000000000;
+
+
+			// // add database
+			
+			 con.query(`INSERT INTO datakey (RedeemKey,Used,Key1,Key2,Key3,Game,HWID,DiscordID,Blacklist,Reason) 
+			 VALUES ('${ab}','True','${randomkeycheck1}','${randomkeycheck2}','${randomkeycheck3}','${interactionGame}','Unknow','${interaction.user.id}','False',"Unknow")`, function(err, results, fields) {
+			 	if (err) return console.log(err);
+			 	const Embed1 = new discord.MessageEmbed()
+			 	.setTitle('₊˚. ༘ ❝ Successfully˚✧ ')
+			 	.setColor('#5edfff')	
+			 	.setDescription("<:__:963341448714018838> : Thank you very much!\n┖Type `/script` command for get your script.")
+			 	.setTimestamp()
+			 	.setFooter('Deity Hub');
+			 	if (interactionGame === "BloxFruit") {
+			 		resrole = "1010457656646979594";;
+			 	} else if (interactionGame === "ADM") {
+			 		resrole = "1010457656646979594";
+			 	}
+
+
+			 	//interaction.member.roles.add(interaction.guild.roles.cache.find(role => role.id === resrole)).then().catch(err => {}); 
+			 	interaction.member.roles.add(interaction.guild.roles.cache.find(role => role.id === "1010457656646979594")).then().catch(err => {});
+			 	/////////////////////////////////////////////////////////////////////////
+				 let channel = interaction.client.channels.cache.get('1010455886705217607'); 
+				 const Embed10 = new discord.MessageEmbed()
+				 .setTitle('₊˚. ༘ ❝ Buy Script˚✧ ')
+				 .setColor('#5edfff')	
+				 .setDescription("<@"+interaction.user.id+"> ("+interaction.user.id+") \nBuying : " + interactionGame + "\nCode : " + interactionLink)
+				 .setTimestamp()
+				 .setFooter('Deity Hub');
+				 channel.send({ embeds: [Embed10] ,  ephemeral: true })
+			 	/////////////////////////////////////////////////////////////////////////
+			 	interaction.followUp({ embeds: [Embed1] ,  ephemeral: true }).then().catch(err => {});
+             })
+
+          } catch (err) {
+            if (err.status === 400 || err.status === 404) return interaction.followUp({ embeds: [EmbedErorr("```diff\n- Link ไม่ถูกต้อง อาจจะถูกใช้ไปแล้วหรือหมดอายุ ❌. ```")] ,  ephemeral: true }).then().catch(err => {});
+            
+            console.log(err);
+            return interaction.followUp({ embeds: [EmbedErorr('```diff\n- ตรวจพบปัญหาบางอย่างไม่ทราบสาเหตุโปรดติดต่อผู้ทำบอท ⚠. ```')] ,  ephemeral: true }).then().catch(err => {});
+
+          }
+
+        }
+      
+    }
+}

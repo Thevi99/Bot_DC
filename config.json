@@ -1,0 +1,17 @@
+{
+    "sql": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "database": "Zetahubv1" 
+    },
+    "NameHub":"Zeta Hub",
+    "MadeBy":"Zeta Hub",
+    "LOGOHUB":"https://cdn.discordapp.com/attachments/1010456757870530561/1010456865353781318/289014254_601419314593329_3238247828058334659_n.png",
+    "buyer":"1010457656646979594",
+    "keymanager":"939599909160648786",
+    "keymanagername":"Dev",
+    "phone":"0988273436",
+    "clientid":"998271747671457903",
+    "token":"OTk4MjcxNzQ3NjcxNDU3OTAz.GADJjr.H7E6h3Lrn-sD_4d_VzgVH4wNgsT1s5-bp0jfP8"
+}
